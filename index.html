@@ -181,7 +181,7 @@ function rep(y,m){
  <p class="c" style="margin:0 0 10px">Sasaran 2: Ketidaksesuaian gambar kerja (NCR dari Quality Control), periode ${per}</p>
  <table class="lt"><thead><tr><th>No</th><th>No. NCR</th><th>Tanggal</th><th>Proyek</th><th>Unit / Part</th><th>Uraian Masalah Gambar</th><th>Status</th></tr></thead><tbody>${nl||'<tr><td colspan="7" class="c">Tidak ada NCR masalah gambar pada periode ini</td></tr>'}</tbody></table>
  <p class="ft">${foot()}</p></article>`;}
-const foot=()=>`Dicetak melalui sistem Sasaran Mutu ${CFG.DEPT} · ${new Date().toLocaleString('id-ID')}`;
+const foot=()=>`Dicetak melalui sistem ERP Engineering | Sasaran Mutu ${CFG.DEPT} · ${new Date().toLocaleString('id-ID')}`;
 document.addEventListener('click',e=>{
  const b=e.target.closest('[data-o]');if(b&&D)return openReport(D.year+'-'+pad(b.dataset.o),!!b.dataset.p);
  if(e.target.closest('#bk')){V='dash';render();}
