@@ -4,12 +4,12 @@
 <title>Sasaran Mutu Engineering</title>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#26324a;--mut:#6b7a93;--ok:#2fa874;--bad:#e8605d;--wait:#d98b2b;--blue:#5b8def;--line:rgba(120,140,180,.22)}
+:root{--w:1440px;--ink:#26324a;--mut:#6b7a93;--ok:#2fa874;--bad:#e8605d;--wait:#d98b2b;--blue:#5b8def;--line:rgba(120,140,180,.22)}
 *{box-sizing:border-box}
 body{margin:0;min-height:100vh;font:14px/1.5 Figtree,system-ui,sans-serif;color:var(--ink);background:radial-gradient(55% 45% at 8% 0,#cfe2ff,transparent 70%),radial-gradient(45% 40% at 96% 8%,#e8dcff,transparent 70%),radial-gradient(55% 50% at 50% 100%,#d3f4e5,transparent 70%),#f4f7fc;background-attachment:fixed}
 .gl{background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(22px) saturate(170%);backdrop-filter:blur(22px) saturate(170%);border:1px solid rgba(255,255,255,.8);border-radius:22px;box-shadow:0 10px 34px rgba(80,110,170,.13),inset 0 1px 0 rgba(255,255,255,.95)}
 .i{width:20px;height:20px;flex:none}.lg{width:32px;height:32px}
-.bar{position:sticky;top:10px;z-index:5;width:calc(100% - 24px);max-width:1100px;margin:10px auto 0;display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 18px}
+.bar{position:sticky;top:10px;z-index:5;width:calc(100% - 24px);max-width:var(--w);margin:10px auto 0;display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 18px}
 .bar h1{font-size:16px;margin:0;font-weight:700;flex:1;min-width:190px;display:flex;align-items:center;gap:10px}
 .bar select,.bar button{font:inherit;display:inline-flex;align-items:center;gap:6px;border-radius:12px;border:1px solid rgba(255,255,255,.9);background:rgba(255,255,255,.65);color:var(--ink);padding:6px 12px;cursor:pointer}
 .bar .go{background:linear-gradient(135deg,#8fb4ff,#a99bf5);color:#fff;font-weight:600;border:0}
@@ -17,7 +17,7 @@ body{margin:0;min-height:100vh;font:14px/1.5 Figtree,system-ui,sans-serif;color:
 .live:before{content:"";width:8px;height:8px;border-radius:50%;background:#4fd49a;animation:p 2s infinite}
 .live.off:before{background:#ff8a80;animation:none}
 @keyframes p{50%{opacity:.35}}
-.wrap{max-width:1100px;margin:0 auto;padding:20px 12px}
+.wrap{max-width:var(--w);margin:0 auto;padding:20px 12px}
 .hero{display:grid;grid-template-columns:minmax(220px,300px) 1fr;gap:28px;padding:26px}
 .big span{font-size:60px;font-weight:700;letter-spacing:-2px;line-height:1;color:var(--blue)}
 .big p{margin:10px 0 0}.sub{color:var(--mut);font-size:13px}
@@ -42,6 +42,22 @@ h2{font-size:15px;margin:26px 4px 10px;display:flex;align-items:center;gap:8px}
 .chip.ok{background:rgba(47,168,116,.15);color:var(--ok)}.chip.bad{background:rgba(232,96,93,.15);color:var(--bad)}.chip.wait{background:rgba(240,160,67,.18);color:var(--wait)}
 .act button{font:inherit;font-size:12px;border:1px solid rgba(255,255,255,.9);background:rgba(255,255,255,.7);border-radius:10px;padding:3px 10px;margin-left:4px;cursor:pointer}
 .err{padding:30px;text-align:center;color:var(--bad)}.warn{margin:12px 4px 0;color:var(--wait);font-size:13px}
+/* Tabel pencapaian per bulan: muat penuh tanpa scroll horizontal */
+.t.mo th,.t.mo td{padding:9px 7px;white-space:normal;vertical-align:middle;line-height:1.3}
+.t.mo th{font-size:11.5px}.t.mo td{font-size:13px;font-variant-numeric:tabular-nums}
+.t.mo td:first-child{white-space:nowrap}
+.t.mo .chip{display:inline-block;padding:2px 9px;line-height:1.35;text-align:center}
+.t.mo .act{min-width:56px}.t.mo .act button{margin:2px 0 2px 4px}
+/* Layar sempit: tiap bulan menjadi kartu (diaktifkan otomatis oleh fit() bila tabel tidak muat) */
+.t.rs,.t.rs tbody,.t.rs tfoot,.t.rs tr,.t.rs td{display:block;width:100%}
+.t.rs thead{display:none}
+.t.rs tr{padding:12px 16px;border-bottom:1px solid var(--line)}
+.t.rs tfoot tr{background:rgba(255,255,255,.4);border-bottom:0}
+.t.rs td,.t.rs tfoot td{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:4px 0;border:0;background:none;text-align:right}
+.t.rs td:before{content:attr(data-l);color:var(--mut);font-size:12px;font-weight:600;text-align:left}
+.t.rs td:first-child{font-size:15px;font-weight:700;padding-bottom:6px;text-align:left}
+.t.rs td:first-child:before,.t.rs .act:before{display:none}
+.t.rs td:empty{display:none}.t.rs .act{justify-content:flex-end;padding-top:8px}
 #rpt,#dash{display:none}
 [data-v=dash] #dash{display:block}[data-v=rpt] #rpt{display:block}
 #rpt{overflow-x:auto;padding:0 12px 20px}
@@ -130,7 +146,15 @@ function render(){
  if(V==='rpt'){const m=+P.slice(5,7);
   $('#pm').innerHTML=BL.map((b,i)=>`<option value="${i+1}" ${i+1===m?'selected':''}>${b} ${D.year}</option>`).join('');
   $('#rpt').innerHTML=rep(D.year,m);}
- else $('#dash').innerHTML=dash();}
+ else{$('#dash').innerHTML=dash();fit();}}
+function fit(){
+ const t=$('#dash table.mo');if(!t)return;
+ if(!t.dataset.lb){const h=[...t.tHead.rows[0].cells].map(c=>c.textContent.trim());
+  t.querySelectorAll('tr').forEach(r=>[...r.cells].forEach((c,i)=>{if(h[i])c.dataset.l=h[i];}));t.dataset.lb=1;}
+ t.classList.remove('rs');const w=t.parentElement;
+ if(w.clientWidth&&w.scrollWidth>w.clientWidth+1)t.classList.add('rs');}
+let fq=0;addEventListener('resize',()=>{cancelAnimationFrame(fq);fq=requestAnimationFrame(()=>{if(V==='dash')fit();});});
+document.fonts&&document.fonts.ready.then(()=>{if(V==='dash')fit();});
 function dash(){
  const y=D.ytd,ms=D.months,N=D.ncr,nt=N.months.reduce((a,m)=>a+m.total,0);
  const bars=ms.map(m=>{const c=m.pct==null?'na':m.pct>=D.target?'ok':'';
@@ -145,7 +169,7 @@ function dash(){
  <div class="bars"><div class="tl"><em>Target ${n1(D.target)}</em></div>${bars}</div></section>
  <div class="tiles">${tile(I.ok,y.tepat,'Unit tepat waktu')}${tile(I.late,y.telat+y.belum,'Terlambat / belum terkirim')}${tile(I.tgt,y.belumJT,'Belum jatuh tempo')}${tile(I.ncr,nt,'NCR gambar dari QC')}</div>
  ${N.warn?`<p class="warn">Sheet NCR: ${esc(N.warn)}</p>`:''}
- <h2>${I.tgt.replace('lg','')}Pencapaian per bulan</h2><div class="gl sc"><table class="t"><thead><tr><th>Bulan</th><th>PO</th><th>Total unit</th><th>Jatuh tempo</th><th>Tepat waktu</th><th>Terlambat</th><th>Belum kirim</th><th>Belum JT</th><th>% Kirim</th><th>Status</th><th>NCR gambar</th><th>Status NCR</th><th>Laporan</th><th></th></tr></thead><tbody>${rows}</tbody>
+ <h2>${I.tgt.replace('lg','')}Pencapaian per bulan</h2><div class="gl sc"><table class="t mo"><thead><tr><th>Bulan</th><th>PO</th><th>Total unit</th><th>Jatuh tempo</th><th>Tepat waktu</th><th>Terlambat</th><th>Belum kirim</th><th>Belum JT</th><th>% Kirim</th><th>Status</th><th>NCR gambar</th><th>Status NCR</th><th>Laporan</th><th></th></tr></thead><tbody>${rows}</tbody>
  <tfoot><tr><td>Total ${D.year}</td><td>${y.po}</td><td>${y.total}</td><td>${y.jt}</td><td>${y.tepat}</td><td>${y.telat}</td><td>${y.belum}</td><td>${y.belumJT}</td><td>${y.pct==null?'-':n1(y.pct)}</td><td></td><td>${nt}</td><td></td><td></td><td></td></tr></tfoot></table></div>
  <h2>${I.ok.replace('lg','')}Pencapaian per client (${D.year})</h2><div class="gl sc"><table class="t"><thead><tr><th>Client</th><th>Jatuh tempo</th><th>Tepat waktu</th><th>% Kirim</th></tr></thead><tbody>${cl||'<tr><td colspan="4">Belum ada data</td></tr>'}</tbody></table></div>
  <p class="sub" style="margin:14px 4px">Laporan dibuat otomatis oleh sistem setiap tanggal ${CFG.DAY} untuk bulan sebelumnya; sebelum tanggal itu laporan berstatus draft dan angkanya mengikuti data terbaru. NCR yang dihitung hanya yang berkategori masalah gambar (maks. ${N.max} kejadian per bulan per proyek).</p>`;}
